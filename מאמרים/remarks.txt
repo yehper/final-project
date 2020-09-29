@@ -1,0 +1,4 @@
+1. Alyssa Pierson, Zijian Wang, and Mac Schwager -
+  Not so relevant as it refers to closing in on the evaders in closed area.   We consider reaching this area as Loss to the persuers.
+2. Safe-Reachable Area Cooperative Pursuit - 
+  Closer to us, but the main difference is they are in bounded domain, while ours is more "free world" around the defending area
