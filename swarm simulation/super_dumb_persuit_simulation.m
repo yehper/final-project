@@ -1,8 +1,17 @@
 %% Create a multi-robot environment
-numRobots = 2;
+numRobots = 6;
 env = MultiRobotEnv(numRobots);
 env.robotRadius = 0.1;
 env.showTrajectory = false;
+
+map = binaryOccupancyMap(100,100);
+
+x = 41:60;
+y = 41:60;
+xy = [p(:) q(:)];
+[p,q] = meshgrid(x,y);
+setOccupancy(map, xy, ones(20^2,1))
+env.mapName = "map";
 
 %% Create robot detectors for all robots
 detectors = cell(1,numRobots);
@@ -32,7 +41,7 @@ tVec = 0:sampleTime:25;        % Time array
 poses = [10*(rand(2,numRobots) - 0.5); ...
          pi*rand(1,numRobots)];
 angleBias = 2*pi*(1:numRobots)/numTeams;
-poses(1:2,:) = poses(1:2,:) + 2.5*[sin(angleBias);cos(angleBias)];
+poses(1:2,:) = poses(1:2,:) + 2.5*[sin(angleBias);cos(angleBias)]+20;
 
 %% Simulation loop
 vel = zeros(3,numRobots);
@@ -44,8 +53,8 @@ for idx = 2:numel(tVec)
         % Update the environment
         env(1:numRobots, poses);
     end
-    xlim([-8 8]);   % Without this, axis resizing can slow things down
-    ylim([-8 8]); 
+    xlim([0 100]);   % Without this, axis resizing can slow things down
+    ylim([0 100]); 
     
     % Read the sensor and execute the controller for each robot
     for rIdx = 1:numRobots
