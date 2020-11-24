@@ -66,8 +66,21 @@ The Chasers consider themselves as such if there are enough keepers to cover the
 2. **Reserve:**
     * state: The Chaser does not share Voronoi boundary with an attacker, and a keeper does share a boundary with an attacker
     * operation: 
-        - The keeper will move towards the attacker
+        - The Chaser will move towards the attacker
 3. **Stand-by:**
     * state: The Chaser does not share Voronoi boundary with an attacker, and no keeper shares a boundary with an attacker
     * operation: 
         - The chaser will move towards a pre-defined area (e.g. 1/3 of the distance between the center of the field and the edge) and will stay their until change of state.
+
+## Pseudo-code
+
+```
+1. For each agent:
+    2. Get Voronoi map from central computer
+    3. if protected area is inside Voronoi cell  
+        1. set role as keeper
+    4. else
+        1. set role as chaser
+    5. Determine policy according to situation
+    6. Move according to policy.
+```
