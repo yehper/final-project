@@ -50,18 +50,36 @@ classdef utils
             end
         end
         %% find voronoi neighbors
-        function neighbors=get_neighbors(NumOfRob,cells)
+        function neighbors=get_neighbors(NumOfRob,NumOfAgents,poses,cells)
             neighbors = sparse(NumOfRob, NumOfRob);
             % run on each cell
             for i=1:NumOfRob
-                for j=i+1:NumOfRob
-                    % calc number of intersections
-                    inter = numel(intersect(cells{i},cells{j}));
-                    % check if neighbors
-                    if(inter > 1)
-                        % set neighbors
-                        neighbors(i,j) = 1;
-                        neighbors(j,i) = 1;
+                for j=+1:NumOfRob
+                    if(~((i > NumOfAgents && j > NumOfAgents)||(i <= NumOfAgents && j <= NumOfAgents)))
+                        % calc number of intersections
+                        inter = numel(intersect(cells{i},cells{j}));
+                        % check if neighbors
+                        if(inter > 1)
+                            % set neighbors
+                            neighbors(i,j) = 1;
+                            neighbors(j,i) = 1;
+                        end
+                    end
+                end
+            end
+            % leave only closest agent to attacker
+            for i=NumOfAgents +1:NumOfRob
+                curr_neighbors = find(neighbors(i,:));
+                min_dist = Inf;
+                min_idx = curr_neighbors(1);
+                for j=1:numel(curr_neighbors)
+                    curr_dist =  norm(poses(:,i)-poses(:,curr_neighbors(j)));
+                    if(curr_dist < min_dist)
+                        if(min_dist < Inf)
+                            neighbors(i,min_idx) = 0;
+                        end
+                        min_dist = curr_dist;
+                        min_idx = curr_neighbors(j);
                     end
                 end
             end
