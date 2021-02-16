@@ -8,7 +8,7 @@ classdef utils
             for i=1:numel(cells)
                 % calc Convex hull of current cell
                 k = convhull(cells{i}(:,1), cells{i}(:,2));
-                cells{i} = [cells{i}(k,1); cells{i}(k,2)];
+                cells{i} = [cells{i}(k,1) cells{i}(k,2)];
             end
        end
         %% get voronoi cells and vertecies
