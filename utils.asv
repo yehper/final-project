@@ -68,7 +68,9 @@ classdef utils
                     end
                 end
             end
-
+            if(numel(find(neighbors(3,:)))==0)
+                scatter(cells{3}(1,:),cells{3}(2,:))
+            end
             % leave only closest agent to attacker
             for i=NumOfAgents +1:NumOfRob
                 curr_neighbors = find(neighbors(i,:));
