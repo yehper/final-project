@@ -1,14 +1,14 @@
 classdef utils
      methods (Static)
-       %% get voronoi cells
+        %% get voronoi cells
        function cells=get_voronoi(poses,lBound,hBound)
-           cells = voronoiPolyhedrons(poses,lBound,hBound);
+           [~,~,cells] = voronoiPolyhedrons(poses,lBound,hBound);
            cells = cells';
             % fix vertices order
             for i=1:numel(cells)
                 % calc Convex hull of current cell
-                k = convhull(cells{i}(:,1), cells{i}(:,2));
-                cells{i} = [cells{i}(k,1) cells{i}(k,2)];
+                k = convhull(cells{i}(1,:), cells{i}(2,:));
+                cells{i} = [cells{i}(1,k); cells{i}(2,k)];
             end
        end
         %% get voronoi cells and vertecies
