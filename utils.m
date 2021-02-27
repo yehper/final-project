@@ -51,8 +51,9 @@ classdef utils
             end
         end
         %% find voronoi neighbors
-        function neighbors=get_neighbors(NumOfRob,NumOfAgents,poses,cells)
-            neighbors = sparse(NumOfRob, NumOfRob);
+        function neighbors=get_neighbors(NumOfAgents,poses,cells)
+            [~,NumOfRob] = size(poses);
+            neighbors = zeros(NumOfRob, NumOfRob);
             % run on each cell
             for i=1:NumOfRob
                 for j=i+1:NumOfRob
@@ -87,6 +88,7 @@ classdef utils
                     end
                 end
             end
+            neighbors = sparse(neighbors);
         end
         %% calc_angular_speed_by_point
         function w=calc_angular_speed_by_point(pos,target)
