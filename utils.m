@@ -12,44 +12,44 @@ classdef utils
                 cells{i} = round( cells{i}(:,:),3);
             end
        end
-        %% get voronoi cells and vertecies
-        function [v,c]=get_voronoi_old(x,y)
-            % get cells in order without bounds
-            [~,c] = voronoin([x y]);
-            % get cells not order with bounds
-            [vl,cl] = VoronoiLimit(x,y);
-            v = vl;
-            % run on all cells
-            for i=1:numel(c)
-                curr_cell = c{i};
-                n = numel(curr_cell);
-                % check if unbounded cell
-                if(find(curr_cell == 1))
-                    % check if first ver is 1
-                    if(curr_cell(1) == 1)
-                        % shift one time
-                        curr_cell = circshift(curr_cell,1);
-                    end
-                    one_idx = find(curr_cell == 1);
-                    sh_cell = fliplr(circshift(curr_cell,numel(curr_cell)-1));
-                    one_idx_sh = find(sh_cell == 1);
-                    % filter according to cell length
-                    fl_cells = cl(cellfun(@(x)numel(x)==n+1 && any(x(:) == curr_cell(1)),cl));
-                    % check each cell
-                    for j=1:numel(fl_cells)
-                        % shift the cell
-                        shift = numel(fl_cells{j}) - find(fl_cells{j} == curr_cell(1))+1; 
-                        cell = circshift(fl_cells{j},shift);
-                        % check if the same cell
-                        if((isequal(cell(1:one_idx-1),curr_cell(1:one_idx-1)) && isequal(cell(one_idx+2:end),curr_cell(one_idx+1:end))) ||...
-                           (isequal(cell(1:one_idx_sh-1),sh_cell(1:one_idx_sh-1)) && isequal(cell(one_idx_sh+2:end),sh_cell(one_idx_sh+1:end))))
-                            c{i} = cell;
-                            break;
-                        end
-                    end
-                end
-            end
-        end
+         %% get voronoi cells and vertecies
+%         function [v,c]=get_voronoi_old(x,y)
+%             % get cells in order without bounds
+%             [~,c] = voronoin([x y]);
+%             % get cells not order with bounds
+%             [vl,cl] = VoronoiLimit(x,y);
+%             v = vl;
+%             % run on all cells
+%             for i=1:numel(c)
+%                 curr_cell = c{i};
+%                 n = numel(curr_cell);
+%                 % check if unbounded cell
+%                 if(find(curr_cell == 1))
+%                     % check if first ver is 1
+%                     if(curr_cell(1) == 1)
+%                         % shift one time
+%                         curr_cell = circshift(curr_cell,1);
+%                     end
+%                     one_idx = find(curr_cell == 1);
+%                     sh_cell = fliplr(circshift(curr_cell,numel(curr_cell)-1));
+%                     one_idx_sh = find(sh_cell == 1);
+%                     % filter according to cell length
+%                     fl_cells = cl(cellfun(@(x)numel(x)==n+1 && any(x(:) == curr_cell(1)),cl));
+%                     % check each cell
+%                     for j=1:numel(fl_cells)
+%                         % shift the cell
+%                         shift = numel(fl_cells{j}) - find(fl_cells{j} == curr_cell(1))+1; 
+%                         cell = circshift(fl_cells{j},shift);
+%                         % check if the same cell
+%                         if((isequal(cell(1:one_idx-1),curr_cell(1:one_idx-1)) && isequal(cell(one_idx+2:end),curr_cell(one_idx+1:end))) ||...
+%                            (isequal(cell(1:one_idx_sh-1),sh_cell(1:one_idx_sh-1)) && isequal(cell(one_idx_sh+2:end),sh_cell(one_idx_sh+1:end))))
+%                             c{i} = cell;
+%                             break;
+%                         end
+%                     end
+%                 end
+%             end
+%         end
         %% find voronoi neighbors
         function neighbors=get_neighbors(NumOfAgents,poses,cells)
             [~,NumOfRob] = size(poses);
@@ -99,7 +99,7 @@ classdef utils
                     if theta > pi
                         theta = -(2*pi -theta);
                     end
-                    w = interp1([-pi,pi],[-1,1],theta);
+                    w = interp1([-pi,pi],[-5,5],theta);
         end
      end
 end
