@@ -82,18 +82,24 @@ classdef utils
             for i=NumOfAgents +1:NumOfRob
                 curr_neighbors = find(neighbors(i,:));
                 if(numel(curr_neighbors) > 0)
-                    min_dist = Inf;
-                    min_idx = curr_neighbors(1);
-                    for j=1:numel(curr_neighbors)
-                        curr_dist =  norm(poses(:,i)-poses(:,curr_neighbors(j)));
-                        if(curr_dist < min_dist)
-                            if(min_dist < Inf)
-                                neighbors(i,min_idx) = 0;
-                            end
-                            min_dist = curr_dist;
-                            min_idx = curr_neighbors(j);
-                        end
-                    end
+                    % find closest agent
+                    dist = vecnorm(poses(:,i)-poses(:,curr_neighbors));
+                    [~,idx] = min(dist);
+                    idx = curr_neighbors(idx);
+                    neighbors(i,curr_neighbors) = 0;
+                    neighbors(i,idx) = 1;
+%                     min_dist = Inf;
+%                     min_idx = curr_neighbors(1);
+%                     for j=1:numel(curr_neighbors)
+%                         curr_dist =  norm(poses(:,i)-poses(:,curr_neighbors(j)));
+%                         if(curr_dist < min_dist)
+%                             if(min_dist < Inf)
+%                                 neighbors(i,min_idx) = 0;
+%                             end
+%                             min_dist = curr_dist;
+%                             min_idx = curr_neighbors(j);
+%                         end
+%                     end
                 end
             end
             neighbors = sparse(neighbors);
