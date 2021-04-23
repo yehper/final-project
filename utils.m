@@ -2,17 +2,18 @@ classdef utils
      methods (Static)
         %% get voronoi cells
        function cells=get_voronoi(poses,lBound,hBound)
-%            [~,~,cells] = voronoiPolyhedrons(poses,lBound,hBound);
-%            cells = cells';
-%            % fix vertices order
-%            for i=1:numel(cells)
-%                % calc Convex hull of current cell
-%                k = convhull(cells{i}(1,:), cells{i}(2,:));
-%                cells{i} = [cells{i}(1,k); cells{i}(2,k)];
-%                cells{i} = round( cells{i}(:,:),3);
-%            end
-           [~,~,temp_cells] = voronoiPolyhedrons(poses,lBound,hBound);
-           cells = arrayfun(@(cell)utils.fix_order(cell{1}),temp_cells','UniformOutput',false);
+           [~,~,cells] = voronoiPolyhedrons(poses,lBound,hBound);
+           cells = cells';
+           % fix vertices order
+           for i=1:numel(cells)
+               % calc Convex hull of current cell
+               k = convhull(cells{i}(1,:), cells{i}(2,:));
+               cells{i} = [cells{i}(1,k); cells{i}(2,k)];
+               cells{i} = round( cells{i}(:,:),3);
+           end
+           %TODO need to check why it doesnt work
+           %[~,~,temp_cells] = voronoiPolyhedrons(poses,lBound,hBound);
+           %cells = arrayfun(@(cell)utils.fix_order(cell{1}),temp_cells','UniformOutput',false);
        end
        %% fix vertices order
        function cell=fix_order(curr_cell)
