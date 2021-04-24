@@ -9,7 +9,7 @@ classdef utils
                % calc Convex hull of current cell
                k = convhull(cells{i}(1,:), cells{i}(2,:));
                cells{i} = [cells{i}(1,k); cells{i}(2,k)];
-               cells{i} = round( cells{i}(:,:),3);
+               cells{i} = round( cells{i}(:,:),5);
            end
            %TODO need to check why it doesnt work
            %[~,~,temp_cells] = voronoiPolyhedrons(poses,lBound,hBound);
